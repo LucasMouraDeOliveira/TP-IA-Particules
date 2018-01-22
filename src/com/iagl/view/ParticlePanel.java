@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import com.iagl.model.map.Cell;
 import com.iagl.model.map.Environment;
 import com.iagl.model.sma.SMA;
+import com.iagl.model.util.Parameters;
 
 public class ParticlePanel extends JPanel implements Observer {
 
@@ -19,24 +20,33 @@ public class ParticlePanel extends JPanel implements Observer {
 	 */
 	private static final long serialVersionUID = -2493055910558929717L;
 	
-	private static int CS = 8;
+	private int cs;
 	
 	private SMA sma;
 	
 	private Environment environment;
 	
-	private boolean displayGrid = false;
+	private Parameters parameters;
 	
-	public ParticlePanel(SMA sma, int width, int height) {
+	private boolean displayGrid;
+	
+	public ParticlePanel(SMA sma, Parameters parameters) {
 		this.sma = sma;
+		this.parameters = parameters;
 		this.sma.addObserver(this);
-		this.setPreferredSize(new Dimension(width, height));
+		this.displayGrid = parameters.isGridDisplayed();
 		this.requestFocus();
+		this.initGraphicParameters();
 	}
-	
+
+	private void initGraphicParameters() {
+		this.cs = parameters.getBoxSize();
+		this.setPreferredSize(new Dimension(parameters.getGridSizeX()*cs, parameters.getGridSizeY()*cs));
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(Color.white);
+		g.setColor(Color.lightGray);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
 		if(environment == null)
@@ -47,12 +57,12 @@ public class ParticlePanel extends JPanel implements Observer {
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
 				if(displayGrid) {
-					g.setColor(Color.black);
-					g.drawRect(i*CS, j*CS, CS, CS);
+					g.setColor(Color.darkGray);
+					g.drawRect(i*cs, j*cs, cs, cs);
 				}
 				if(!cells[i][j].isEmpty()) {
 					g.setColor(cells[i][j].getAgent().getColor());
-					g.fillRect(i*CS+1, j*CS+1, CS-1, CS-1);
+					g.fillRect(i*cs+1, j*cs+1, cs-1, cs-1);
 				}
 			}
 		}

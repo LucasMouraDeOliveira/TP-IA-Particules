@@ -10,20 +10,31 @@ public class SMA extends Observable implements Runnable {
 	
 	private int delay;
 	
+	private boolean infinite;
+	
+	private int currentTicks;
+	
+	private int currentFrame;
+	
+	private int refresh;
+	
 	private Environment env;
 	
 	private List<Agent> agents;
 	
-	public SMA(Environment env, int delay) {
+	public SMA(Environment env, int delay, int ticks, int refresh) {
 		this.env = env;
 		this.delay = delay;
+		this.currentTicks = ticks;
+		this.currentFrame =0;
+		this.refresh = refresh;
+		this.infinite = (ticks <= 0);
 		this.agents = this.env.getAgents();
 	}
 	
 	@Override
 	public void run() {
-		
-		while(true) {
+		while(shouldContinue()) {
 			try {
 				Thread.sleep(delay);
 				this.update();
@@ -32,12 +43,19 @@ public class SMA extends Observable implements Runnable {
 		
 	}
 	
+	private boolean shouldContinue() {
+		this.currentFrame++;
+		return infinite || --this.currentTicks>=0;
+	}
+	
 	private void update() {
 		for(Agent agent : this.agents) {
 			agent.decide(env);
 			agent.update();
 		}
-		this.notifyObservers();
+		if(this.currentFrame % this.refresh == 0) {
+			this.notifyObservers();
+		}
 	}
 	
 	@Override

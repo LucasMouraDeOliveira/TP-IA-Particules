@@ -38,18 +38,14 @@ public class BounceParticleAgent extends Agent {
 	
 	private void bounce(Environment env) {
 		
-		int modX = 1;
-		int modY = 1;
-		
 		if(this.posX == 0 || this.posX == env.getWidth()-1) {
-			modX = -1;
-		}
-		if(this.posY == 0 || this.posY == env.getHeight()-1) {
-			modY = -1;
+			this.pasX *= -1;
 		}
 		
-		this.pasX = modX * pasX;
-		this.pasY = modY * pasY;
+		if(this.posY == 0 || this.posY == env.getHeight()-1) {
+			this.pasY *= -1;
+		}
+		
 	}
 	
 	private void swapVelocity(Agent agent) {
