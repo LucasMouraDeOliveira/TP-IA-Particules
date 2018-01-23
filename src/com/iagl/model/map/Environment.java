@@ -1,8 +1,11 @@
 package com.iagl.model.map;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import com.iagl.model.agent.Agent;
 import com.iagl.model.factory.AgentFactory;
@@ -12,6 +15,8 @@ public class Environment {
 	private Cell[][] cells;
 	
 	private List<Agent> agents;
+	
+	private Set<Agent> collidingAgents;
 	
 	private Random random;
 	
@@ -27,6 +32,7 @@ public class Environment {
 		}
 		this.torus = torus;
 		this.agentFactory = new AgentFactory(this.random);
+		this.collidingAgents = new HashSet<Agent>();
 		this.initCells(width, height);
 		this.initAgents(nbAgents);
 	}
@@ -105,6 +111,18 @@ public class Environment {
 	
 	public int getWidth() {
 		return this.cells.length;
+	}
+	
+	public void addCollidingAgent(Agent agent) {
+		this.collidingAgents.add(agent);
+	}
+	
+	public Iterator<Agent> getCollidingAgents() {
+		return this.collidingAgents.iterator();
+	}
+	
+	public void clearCollidingAgents() {
+		this.collidingAgents.clear();
 	}
 	
 }

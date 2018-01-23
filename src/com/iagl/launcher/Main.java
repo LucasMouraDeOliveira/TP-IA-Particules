@@ -21,7 +21,9 @@ public class Main {
 				env, 
 				parameters.getDelay(), 
 				parameters.getTicks(),
-				parameters.getRefresh());
+				parameters.getRefresh(),
+				parameters.isTrace(),
+				parameters.getPrintLocation());
 		Window window = new Window(sma, parameters);
 		window.start();
 		new Thread(sma).start();

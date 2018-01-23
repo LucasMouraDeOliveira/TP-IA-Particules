@@ -33,6 +33,10 @@ public class Parameters {
 	
 	private int refresh;
 	
+	private boolean trace;
+
+	private String printLocation;
+	
 	public Parameters(String filePath) throws IOException {
 		this.properties = new Properties();
 		this.properties.load(new FileInputStream(new File(filePath)));
@@ -106,6 +110,19 @@ public class Parameters {
 		} catch(NumberFormatException e) {
 			this.refresh = 0;
 		}
+		
+		String strTrace = this.properties.getProperty("trace");
+		if(strTrace == null || !strTrace.trim().equals("true")) {
+			this.trace = false;
+		} else {
+			this.trace = true;
+		}
+		
+		this.printLocation = this.properties.getProperty("printLocation");
+		if(this.printLocation == null || this.printLocation.trim().isEmpty()) {
+			this.printLocation = null;
+		}
+		
 	}
 	
 	public int getGridSizeX() {
@@ -156,4 +173,11 @@ public class Parameters {
 		return refresh;
 	}
 	
+	public boolean isTrace() {
+		return trace;
+	}
+
+	public String getPrintLocation() {
+		return printLocation;
+	}
 }

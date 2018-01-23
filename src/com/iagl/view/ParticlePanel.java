@@ -46,13 +46,17 @@ public class ParticlePanel extends JPanel implements Observer {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(Color.lightGray);
-		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
 		if(environment == null)
 			return;
 		
 		Cell[][] cells = this.environment.getCells();
+		
+		g.setColor(Color.lightGray);
+		g.fillRect(0, 0, cells.length*cs, cells[0].length*cs);
+		
+		g.setColor(Color.black);
+		g.drawRect(0, 0, cells.length*cs, cells[0].length*cs);
 		
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
