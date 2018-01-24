@@ -1,14 +1,15 @@
-package com.iagl.model.sma;
+package com.iagl.core.sma;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
 
-import com.iagl.model.agent.Agent;
-import com.iagl.model.map.Environment;
-import com.iagl.model.util.Scheduling;
-import com.iagl.model.util.Trace;
+import com.iagl.core.agent.Agent;
+import com.iagl.core.map.Environment;
+import com.iagl.core.util.Scheduling;
+
+import todo.Trace;
 
 public class SMA extends Observable implements Runnable {
 	
@@ -32,7 +33,7 @@ public class SMA extends Observable implements Runnable {
 
 	private Trace trace;
 	
-	public SMA(Environment env, int delay, int ticks, int refresh, String printLocation, Scheduling scheduling, Random random, Trace trace) {
+	public SMA(Environment env, int delay, int ticks, int refresh, Scheduling scheduling, Random random, Trace trace) {
 		this.env = env;
 		this.delay = delay;
 		this.currentTicks = ticks;
@@ -73,7 +74,7 @@ public class SMA extends Observable implements Runnable {
 	private void scheduling(List<Agent> agents) {
 		switch (this.scheduling) {
 			case EQUITABLE:
-				Collections.shuffle(agents,random);
+				Collections.shuffle(agents, random);
 				for(Agent agent : this.agents) {
 					agent.decide(env);
 					agent.update();

@@ -1,12 +1,12 @@
-package com.iagl.view;
+package com.iagl.particles.view;
 
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-import com.iagl.model.sma.SMA;
-import com.iagl.model.util.Parameters;
+import com.iagl.core.sma.SMA;
+import com.iagl.particles.util.ParticleParameters;
 
 public class Window extends JFrame {
 	
@@ -17,7 +17,7 @@ public class Window extends JFrame {
 	
 	private static final int SCROLL_OFFSET = 3;
 
-	public Window(SMA sma, Parameters parameters) {
+	public Window(SMA sma, ParticleParameters parameters) {
 		this.setTitle("Particles");
 		this.setResizable(true);
 		this.initContentPane(sma, parameters);
@@ -30,7 +30,7 @@ public class Window extends JFrame {
 		this.setVisible(true);
 	}
 	
-	private void initContentPane(SMA sma, Parameters parameters) {
+	private void initContentPane(SMA sma, ParticleParameters parameters) {
 		ParticlePanel particlePanel = new ParticlePanel(sma, parameters);
 		JScrollPane scrollPane = new JScrollPane(particlePanel);
 		scrollPane.setPreferredSize(new Dimension(parameters.getCanvasSizeX()+SCROLL_OFFSET, parameters.getCanvasSizeY() + SCROLL_OFFSET));

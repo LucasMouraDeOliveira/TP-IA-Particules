@@ -1,11 +1,11 @@
-package com.iagl.model.agent;
+package com.iagl.particles.agent;
 
-import com.iagl.model.map.Cell;
-import com.iagl.model.map.Environment;
+import com.iagl.core.map.Cell;
+import com.iagl.core.map.Environment;
 
-public class StopParticleAgent extends Agent {
+public class StopParticle extends Particle {
 
-	public StopParticleAgent(int posX, int posY, int pasX, int pasY) {
+	public StopParticle(int posX, int posY, int pasX, int pasY) {
 		super(posX, posY, pasX, pasY);
 	}
 

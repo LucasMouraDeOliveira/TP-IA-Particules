@@ -1,4 +1,4 @@
-package com.iagl.model.util;
+package com.iagl.core.util;
 
 public enum Scheduling {
 	EQUITABLE,SEQUENTIEL,ALEATOIRE

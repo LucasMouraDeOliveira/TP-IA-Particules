@@ -1,11 +1,11 @@
-package com.iagl.model.util;
+package todo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
-import com.iagl.model.agent.Agent;
+import com.iagl.particles.agent.Particle;
 
 public class Trace {
 
@@ -24,7 +24,7 @@ public class Trace {
 		}
 	}
 	
-	public void traceCollision(Agent agent){
+	public void traceCollision(Particle agent){
 		if(this.trace){
 			System.out.println("Agent;"+agent.getPosX()+";"+agent.getPosY()+";"+agent.getPasX()+";"+agent.getPasY()+";");
 		}

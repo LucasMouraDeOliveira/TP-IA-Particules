@@ -1,13 +1,13 @@
-package com.iagl.model.agent;
+package com.iagl.particles.agent;
 
 import java.awt.Color;
 
-import com.iagl.model.map.Cell;
-import com.iagl.model.map.Environment;
+import com.iagl.core.map.Cell;
+import com.iagl.core.map.Environment;
 
-public class BounceParticleAgent extends Agent {
+public class BounceParticle extends Particle {
 
-	public BounceParticleAgent(int posX, int posY, int pasX, int pasY) {
+	public BounceParticle(int posX, int posY, int pasX, int pasY) {
 		super(posX, posY, pasX, pasY);
 	}
 
@@ -30,7 +30,7 @@ public class BounceParticleAgent extends Agent {
 		if(newCell.isEmpty()) {
 			this.move(env, newCell);
 		} else {
-			this.swapVelocity(newCell.getAgent(), env);
+			this.swapVelocity((Particle)newCell.getAgent(), env);
 			this.setColor(Color.RED);
 		}
 			

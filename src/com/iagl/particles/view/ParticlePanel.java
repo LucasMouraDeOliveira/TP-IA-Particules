@@ -1,17 +1,18 @@
-package com.iagl.view;
+package com.iagl.particles.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import com.iagl.model.map.Cell;
-import com.iagl.model.map.Environment;
-import com.iagl.model.sma.SMA;
-import com.iagl.model.util.Parameters;
+import com.iagl.core.map.Cell;
+import com.iagl.core.map.Environment;
+import com.iagl.core.sma.SMA;
+import com.iagl.particles.util.ParticleParameters;
 
 public class ParticlePanel extends JPanel implements Observer {
 
@@ -26,20 +27,20 @@ public class ParticlePanel extends JPanel implements Observer {
 	
 	private Environment environment;
 	
-	private Parameters parameters;
+	private ParticleParameters parameters;
 	
 	private boolean displayGrid;
 	
-	public ParticlePanel(SMA sma, Parameters parameters) {
+	public ParticlePanel(SMA sma, ParticleParameters parameters) {
 		this.sma = sma;
 		this.parameters = parameters;
 		this.sma.addObserver(this);
 		this.displayGrid = parameters.isGridDisplayed();
 		this.requestFocus();
-		this.initGraphicParameters();
+		this.initGraphicParticleParameters();
 	}
 
-	private void initGraphicParameters() {
+	private void initGraphicParticleParameters() {
 		this.cs = parameters.getBoxSize();
 		this.setPreferredSize(new Dimension(parameters.getGridSizeX()*cs, parameters.getGridSizeY()*cs));
 	}
@@ -70,6 +71,9 @@ public class ParticlePanel extends JPanel implements Observer {
 				}
 			}
 		}
+		
+		Toolkit.getDefaultToolkit().sync();
+		
 	}
 
 	@Override

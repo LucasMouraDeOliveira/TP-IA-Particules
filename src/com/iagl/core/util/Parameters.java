@@ -1,4 +1,4 @@
-package com.iagl.model.util;
+package com.iagl.core.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,45 +7,44 @@ import java.util.Properties;
 
 public class Parameters {
 	
-	private Properties properties;
+	protected Properties properties;
 	
-	private int gridSizeX;
+	protected int gridSizeX;
 	
-	private int gridSizeY;
+	protected int gridSizeY;
 	
-	private int boxSize;
+	protected int boxSize;
 	
-	private int canvasSizeX;
+	protected int canvasSizeX;
 	
-	private int canvasSizeY;
+	protected int canvasSizeY;
 	
-	private int delay;
+	protected int delay;
 	
-	private int nbParticles;
+	protected int nbTicks;
 	
-	private int nbTicks;
+	protected boolean grid;
 	
-	private boolean grid;
+	protected long seed;
 	
-	private long seed;
+	protected boolean torus;
 	
-	private boolean torus;
+	protected int refresh;
 	
-	private int refresh;
+	protected Scheduling scheduling;
 	
-	private Scheduling scheduling;
-	
-	private boolean trace;
+	protected boolean trace;
 
-	private String printLocation;
+	protected String printLocation;
 	
 	public Parameters(String filePath) throws IOException {
 		this.properties = new Properties();
 		this.properties.load(new FileInputStream(new File(filePath)));
 		this.loadProperties();
 	}
-
-	private void loadProperties() {
+	
+	protected void loadProperties() {
+		
 		try {
 			this.gridSizeX = Integer.valueOf(this.properties.getProperty("gridSizeX"));
 		} catch(NumberFormatException e) {
@@ -75,11 +74,6 @@ public class Parameters {
 			this.delay = Integer.valueOf(this.properties.getProperty("delay"));
 		} catch(NumberFormatException e) {
 			this.delay = 50;
-		}
-		try {
-			this.nbParticles = Integer.valueOf(this.properties.getProperty("nbParticles"));
-		} catch(NumberFormatException e) {
-			this.nbParticles = 10;
 		}
 		
 		String strGrid = this.properties.getProperty("grid");
@@ -139,11 +133,11 @@ public class Parameters {
 		}
 		
 	}
-	
+
 	public int getGridSizeX() {
 		return gridSizeX;
 	}
-	
+
 	public int getGridSizeY() {
 		return gridSizeY;
 	}
@@ -159,21 +153,17 @@ public class Parameters {
 	public int getCanvasSizeY() {
 		return canvasSizeY;
 	}
-	
+
 	public int getDelay() {
 		return delay;
 	}
-	
-	public int getNbParticles() {
-		return nbParticles;
+
+	public int getNbTicks() {
+		return nbTicks;
 	}
 
 	public boolean isGridDisplayed() {
 		return grid;
-	}
-
-	public int getTicks() {
-		return nbTicks;
 	}
 
 	public long getSeed() {
@@ -183,11 +173,15 @@ public class Parameters {
 	public boolean isTorus() {
 		return torus;
 	}
-	
+
 	public int getRefresh() {
 		return refresh;
 	}
-	
+
+	public Scheduling getScheduling() {
+		return scheduling;
+	}
+
 	public boolean isTrace() {
 		return trace;
 	}
@@ -195,8 +189,5 @@ public class Parameters {
 	public String getPrintLocation() {
 		return printLocation;
 	}
-	
-	public Scheduling getScheduling() {
-		return scheduling;
-	}
+
 }

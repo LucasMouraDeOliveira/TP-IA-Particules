@@ -1,18 +1,20 @@
-package com.iagl.launcher;
+package com.iagl.particles.launcher;
 
 import java.io.IOException;
 import java.util.Random;
 
-import com.iagl.model.map.Environment;
-import com.iagl.model.sma.SMA;
-import com.iagl.model.util.Parameters;
-import com.iagl.model.util.Trace;
-import com.iagl.view.Window;
+import com.iagl.core.map.Environment;
+import com.iagl.core.sma.SMA;
+import com.iagl.particles.map.ParticleEnvironment;
+import com.iagl.particles.util.ParticleParameters;
+import com.iagl.particles.view.Window;
+
+import todo.Trace;
 
 public class Main {
 	
 	public static void main(String[] args) throws IOException {
-		Parameters parameters = new Parameters(args[0]);
+		ParticleParameters parameters = new ParticleParameters(args[0]);
 		Random random;
 		if(parameters.getSeed() != -1) {
 			random = new Random(parameters.getSeed());
@@ -21,20 +23,18 @@ public class Main {
 		}
 		Trace trace = new Trace(parameters.isTrace(), parameters.getPrintLocation());
 
-		Environment env = new Environment(
+		Environment env = new ParticleEnvironment(
 				parameters.getGridSizeX(), 
 				parameters.getGridSizeY(), 
 				parameters.getNbParticles(), 
 				parameters.isTorus(),
-				parameters.getPrintLocation(),
-				random,
-				trace);
+				trace,
+				random);
 		SMA sma = new SMA(
 				env, 
 				parameters.getDelay(), 
-				parameters.getTicks(),
+				parameters.getNbTicks(),
 				parameters.getRefresh(),
-				parameters.getPrintLocation(),
 				parameters.getScheduling(),
 				random,
 				trace);

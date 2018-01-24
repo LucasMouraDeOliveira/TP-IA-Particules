@@ -1,6 +1,6 @@
-package com.iagl.model.map;
+package com.iagl.core.map;
 
-import com.iagl.model.agent.Agent;
+import com.iagl.core.agent.Agent;
 
 public class Cell {
 	

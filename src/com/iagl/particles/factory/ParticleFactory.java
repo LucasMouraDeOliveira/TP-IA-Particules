@@ -1,15 +1,15 @@
-package com.iagl.model.factory;
+package com.iagl.particles.factory;
 
 import java.util.Random;
 
-import com.iagl.model.agent.Agent;
-import com.iagl.model.agent.BounceParticleAgent;
+import com.iagl.core.agent.Agent;
+import com.iagl.particles.agent.BounceParticle;
 
-public class AgentFactory {
+public class ParticleFactory {
 	
 	private Random random;
 	
-	public AgentFactory(Random random) {
+	public ParticleFactory(Random random) {
 		this.random = random;
 	}
 	
@@ -20,7 +20,7 @@ public class AgentFactory {
 		int pasX = (direction/3)-1;
 		int pasY = (direction%3)-1;
 		
-		return new BounceParticleAgent(posX, posY, pasX, pasY);
+		return new BounceParticle(posX, posY, pasX, pasY);
 	}
 	
 	private int randomDirection() {
