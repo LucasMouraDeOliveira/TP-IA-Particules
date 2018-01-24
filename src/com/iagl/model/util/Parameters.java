@@ -33,6 +33,8 @@ public class Parameters {
 	
 	private int refresh;
 	
+	private Scheduling scheduling;
+	
 	private boolean trace;
 
 	private String printLocation;
@@ -123,6 +125,19 @@ public class Parameters {
 			this.printLocation = null;
 		}
 		
+		String str = this.properties.getProperty("scheduling");
+		switch(str){
+			case "aleatoire": 
+				this.scheduling = Scheduling.ALEATOIRE;
+				break;
+			case "equitable": 
+				this.scheduling = Scheduling.EQUITABLE;
+				break;
+			default: 
+				this.scheduling = Scheduling.SEQUENTIEL;
+				break;
+		}
+		
 	}
 	
 	public int getGridSizeX() {
@@ -179,5 +194,9 @@ public class Parameters {
 
 	public String getPrintLocation() {
 		return printLocation;
+	}
+	
+	public Scheduling getScheduling() {
+		return scheduling;
 	}
 }

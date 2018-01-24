@@ -16,7 +16,7 @@ public abstract class Agent {
 	protected int pasY;
 	
 	protected Color color;
-	
+		
 	public Agent(int posX, int posY, int pasX, int pasY) {
 		this.posX = posX;
 		this.posY = posY;
@@ -74,6 +74,19 @@ public abstract class Agent {
 	
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	
+	public void setDirection(int pasX, int pasY, Environment env){
+		this.pasX = pasX;
+		this.pasY = pasY;
+		env.getTrace().traceCollision(this);
+	}
+	
+	public void swapVelocity(Agent agent, Environment env) {
+		int tmpX = agent.getPasX();
+		int tmpY = agent.getPasY();
+		agent.setDirection(this.pasX,this.pasY, env);
+		this.setDirection(tmpX, tmpY, env);
 	}
 
 }

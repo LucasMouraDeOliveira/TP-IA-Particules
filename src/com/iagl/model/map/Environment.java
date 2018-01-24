@@ -1,14 +1,12 @@
 package com.iagl.model.map;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import com.iagl.model.agent.Agent;
 import com.iagl.model.factory.AgentFactory;
+import com.iagl.model.util.Trace;
 
 public class Environment {
 	
@@ -16,27 +14,23 @@ public class Environment {
 	
 	private List<Agent> agents;
 	
-	private Set<Agent> collidingAgents;
-	
 	private Random random;
 	
 	private AgentFactory agentFactory;
 	
 	private boolean torus;
-	
-	public Environment(int width, int height, int nbAgents, long seed, boolean torus) {
-		if(seed != -1) {
-			this.random = new Random(seed);
-		} else {
-			this.random = new Random();
-		}
+
+	private Trace trace;	
+
+	public Environment(int width, int height, int nbAgents, boolean torus, String printLocation, Random random, Trace trace) {
+		this.random = random;
 		this.torus = torus;
 		this.agentFactory = new AgentFactory(this.random);
-		this.collidingAgents = new HashSet<Agent>();
 		this.initCells(width, height);
 		this.initAgents(nbAgents);
+		this.trace = trace;
 	}
-	
+
 	private void initCells(int width, int height) {
 		this.cells = new Cell[width][height];
 		for (int i = 0; i < cells.length; i++) {
@@ -113,16 +107,8 @@ public class Environment {
 		return this.cells.length;
 	}
 	
-	public void addCollidingAgent(Agent agent) {
-		this.collidingAgents.add(agent);
-	}
-	
-	public Iterator<Agent> getCollidingAgents() {
-		return this.collidingAgents.iterator();
-	}
-	
-	public void clearCollidingAgents() {
-		this.collidingAgents.clear();
+	public Trace getTrace() {
+		return trace;
 	}
 	
 }

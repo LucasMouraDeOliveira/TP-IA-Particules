@@ -9,7 +9,6 @@ public class BounceParticleAgent extends Agent {
 
 	public BounceParticleAgent(int posX, int posY, int pasX, int pasY) {
 		super(posX, posY, pasX, pasY);
-		//this.setColor(new Color((int)(Math.random()*255), (int)(Math.random()*255),(int)(Math.random()*255)));
 	}
 
 	@Override
@@ -31,16 +30,14 @@ public class BounceParticleAgent extends Agent {
 		if(newCell.isEmpty()) {
 			this.move(env, newCell);
 		} else {
-			this.swapVelocity(newCell.getAgent());
-			env.addCollidingAgent(this);
-			env.addCollidingAgent(newCell.getAgent());
+			this.swapVelocity(newCell.getAgent(), env);
 			this.setColor(Color.RED);
 		}
 			
 	}
 	
 	private void bounce(Environment env) {
-		
+	
 		if(this.posX == 0 || this.posX == env.getWidth()-1) {
 			this.pasX *= -1;
 		}
@@ -48,16 +45,7 @@ public class BounceParticleAgent extends Agent {
 		if(this.posY == 0 || this.posY == env.getHeight()-1) {
 			this.pasY *= -1;
 		}
-		
-	}
-	
-	private void swapVelocity(Agent agent) {
-		int tmpX = agent.getPasX();
-		int tmpY = agent.getPasY();
-		agent.setPasX(this.pasX);
-		agent.setPasY(this.pasY);
-		this.setPasX(tmpX);
-		this.setPasY(tmpY);
+		this.setDirection(pasX, pasY, env);
 	}
 
 }

@@ -1,64 +1,57 @@
 package com.iagl.model.sma;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 import com.iagl.model.agent.Agent;
 import com.iagl.model.map.Environment;
+import com.iagl.model.util.Scheduling;
+import com.iagl.model.util.Trace;
 
 public class SMA extends Observable implements Runnable {
 	
 	private int delay;
 	
 	private boolean infinite;
-	
-	private boolean trace;
-	
+		
 	private int currentTicks;
 	
 	private int currentFrame;
 	
 	private int refresh;
 	
+	private Scheduling scheduling;
+	
 	private Environment env;
 	
 	private List<Agent> agents;
+
+	private Random random;
+
+	private Trace trace;
 	
-	public SMA(Environment env, int delay, int ticks, int refresh, boolean trace, String printLocation) {
+	public SMA(Environment env, int delay, int ticks, int refresh, String printLocation, Scheduling scheduling, Random random, Trace trace) {
 		this.env = env;
 		this.delay = delay;
 		this.currentTicks = ticks;
 		this.currentFrame =0;
 		this.refresh = refresh;
 		this.infinite = (ticks <= 0);
-		this.trace = trace;
 		this.agents = this.env.getAgents();
-		if(this.trace) {
-			this.setSystemPrint(printLocation);
-		}
+		this.scheduling = scheduling;
+		this.random = random;
+		this.trace = trace;
 	}
-	
-	private void setSystemPrint(String printLocation) {
-		if(printLocation != null) {
-			try {
-				System.setOut(new PrintStream(new FileOutputStream(new File(printLocation))));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}		
-	}
+
 
 	@Override
 	public void run() {
 		while(shouldContinue()) {
 			try {
-				Thread.sleep(delay);
 				this.update();
+				Thread.sleep(delay);
 			} catch (InterruptedException e) {}
 		}
 		
@@ -66,31 +59,41 @@ public class SMA extends Observable implements Runnable {
 	
 	private boolean shouldContinue() {
 		this.currentFrame++;
+		this.trace.traceTick(currentFrame);
 		return infinite || --this.currentTicks>=0;
 	}
 	
 	private void update() {
-		for(Agent agent : this.agents) {
-			agent.decide(env);
-			agent.update();
-		}
+		this.scheduling(this.agents);
 		if(this.currentFrame % this.refresh == 0) {
 			this.notifyObservers();
 		}
-		this.updateCollision();
 	}
 	
-	private void updateCollision() {
-		if(this.trace) {
-			Iterator<Agent> it = this.env.getCollidingAgents();
-			Agent agent;
-			while(it.hasNext()) {
-				agent = it.next();
-				System.out.println("Agent;"+agent.getPosX()+";"+agent.getPosY()+";"+agent.getPasX()+";"+agent.getPasY()+";");
+	private void scheduling(List<Agent> agents) {
+		switch (this.scheduling) {
+			case EQUITABLE:
+				Collections.shuffle(agents,random);
+				for(Agent agent : this.agents) {
+					agent.decide(env);
+					agent.update();
+				}
+				break;
+			case ALEATOIRE:
+				int index;
+				for(int i=0; i<this.agents.size();i++) {
+					index = random.nextInt(this.agents.size());
+					agents.get(index).decide(env);
+					agents.get(index).update();
+				}
+				break;
+			default:
+				for(Agent agent : this.agents) {
+					agent.decide(env);
+					agent.update();
+				}
+				break;
 			}
-			System.out.println("Tick;"+this.currentFrame+";");
-		}
-		this.env.clearCollidingAgents();
 	}
 
 	@Override
