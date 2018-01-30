@@ -48,21 +48,24 @@ public class OceanEnvironment extends Environment {
 		this.agents.removeAll(this.deceased);
 		this.newborn.clear();
 		this.deceased.clear();
+		System.out.println(this.agents.size());
 	}
 	
 	public void initAgents(int nbSharks, int nbFishs) {
-		this.agents = new ArrayList<Agent>(nbSharks+nbFishs);
+		int nbAgents = nbSharks+nbFishs;
+		this.agents = new ArrayList<Agent>(nbAgents);
 		int nbFreeCells = cells.length*cells[0].length;
 		Cell cell;
 		for (int i = 0; i < nbFreeCells; i++) {
-			if(this.random.nextDouble() < nbFishs/(double)(nbFreeCells-i)){
+			if(this.random.nextDouble() < nbAgents/(double)(nbFreeCells-i)){
 				cell = getCellAtIndex(i);
-				addFish(cell, this.agents);
-				nbFishs--;
-			} else if(this.random.nextDouble() < nbSharks/(double)(nbFreeCells-i)){
-				cell = getCellAtIndex(i);
-				addShark(cell, this.agents);
-				nbSharks--;
+				if(this.random.nextDouble() < nbFishs/nbAgents) {
+					addFish(cell, this.agents);
+					nbFishs--;
+				} else {
+					addShark(cell, this.agents);
+				}
+				nbAgents--;
 			}
 		}
 	}

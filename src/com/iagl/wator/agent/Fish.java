@@ -22,17 +22,30 @@ public class Fish extends AquaticAnimal {
 			return;
 		}
 		
-		//L'animal est né pendant un tour antérieur
-		this.setNewBorn(false);
+		super.decide(env);
+		this.act(env);
 		
-		//On déplace le poisson
-		Cell cell = env.getCells(posX, posY);
-		if(this.moveInRandomDirection(env)){
-			if(this.breedTick == 0) {
-				this.breedTick = this.breedTime;
-				((OceanEnvironment) env).addNewbornFish(cell);
-			}
-		}
+	}
+	
+	private void act(Environment env) {
+		 int random = this.random.nextInt(9);
+		 Cell cell;
+		 int x, y;
+		 for(int i = 0; i < 9; i++) {
+			 random = (random+1)%9;
+			 x = (random)/3+this.posX-1;
+			 y = (random)%3+this.posY-1;
+			 cell = env.getCells(x, y);
+			 if(cell != null && cell.isEmpty()) {
+				 Cell currentCell = env.getCells(this.posX, this.posY);
+				 this.move(env, cell);
+				 if(this.breedTick == 0) {
+					this.breedTick = this.breedTime;
+					((OceanEnvironment) env).addNewbornFish(currentCell);
+				}
+				return;
+			 }
+		 }
 	}
 
 }

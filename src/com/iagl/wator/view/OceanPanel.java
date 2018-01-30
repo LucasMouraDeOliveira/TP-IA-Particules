@@ -8,8 +8,11 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import com.iagl.core.agent.Agent;
 import com.iagl.core.map.Cell;
 import com.iagl.core.sma.SMA;
+import com.iagl.wator.agent.Fish;
+import com.iagl.wator.agent.Shark;
 import com.iagl.wator.map.OceanEnvironment;
 import com.iagl.wator.util.OceanParameters;
 
@@ -54,6 +57,8 @@ public class OceanPanel extends JPanel implements Observer {
 		g.setColor(Color.black);
 		g.drawRect(0, 0, cells.length*cs, cells[0].length*cs);
 		
+		Agent agent;
+		
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
 				//Drawing the sea
@@ -68,7 +73,12 @@ public class OceanPanel extends JPanel implements Observer {
 				
 				//Drawing the fish/shark
 				if(!cells[i][j].isEmpty()) {
-					g.setColor(cells[i][j].getAgent().getColor());
+					agent = cells[i][j].getAgent();
+					if(agent instanceof Shark) {
+						g.setColor(((Shark)agent).isNewBorn() ? Color.PINK : Color.RED);
+					} else if(agent instanceof Fish) {
+						g.setColor(((Fish)agent).isNewBorn() ? Color.YELLOW : Color.GREEN);
+					}
 					g.fillRect(i*cs, j*cs, cs, cs);
 				}
 			}

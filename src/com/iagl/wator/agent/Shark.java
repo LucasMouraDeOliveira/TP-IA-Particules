@@ -1,8 +1,6 @@
 package com.iagl.wator.agent;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.iagl.core.map.Cell;
@@ -32,11 +30,12 @@ public class Shark extends AquaticAnimal {
 	@Override
 	public void decide(Environment env) {
 		
+		//Si l'animal est mort, on finit son tour et il ne réalise aucune action
 		if(this.isDeceased()) {
 			return;
 		}
 		
-		this.setNewBorn(false);
+		super.decide(env);
 		
 		//If the shark is starving, it dies
 		if(this.starvationTick == 0) {
@@ -44,54 +43,44 @@ public class Shark extends AquaticAnimal {
 			return;
 		}
 		
-		Cell cell = env.getCells(posX, posY);
+		Cell cell = this.act(env);
 		
-		//First the shark tries to eat a fish
-		Fish fish = this.getNeighborFish(env);
-		if(fish != null) {
-			this.starvationTick = this.starvationTime;
-			Cell fishCell = env.getCells(fish.getPosX(), fish.getPosY());
-			((OceanEnvironment)env).addDeceasedAnimal(fish);
-			this.move(env, fishCell);
-			if(this.breedTick == 0) {
-				this.breedTick = this.breedTime;
-				((OceanEnvironment)env).addNewbornShark(cell);
+		if(cell != null) {
+			if(!cell.isEmpty()) {
+				Fish fish = (Fish)cell.getAgent();
+				this.starvationTick = this.starvationTime;
+				((OceanEnvironment)env).addDeceasedAnimal(fish);
 			}
-			return;
-		}
-		
-		//If it can't, it tries to move
-		if(this.moveInRandomDirection(env)){
+			Cell currentCell = env.getCells(this.posX, this.posY);
+			this.move(env, cell);
 			if(this.breedTick == 0) {
-				this.breedTick = this.breedTime;
-				((OceanEnvironment)env).addNewbornShark(cell);
+				this.breedTick = breedTime;
+				((OceanEnvironment)env).addNewbornShark(currentCell);
 			}
 		}
 		
 	}
 	
-	private Fish getNeighborFish(Environment environment) {
-		List<Cell> cells = getNeighborCellContainingFish(environment);
-		if(cells.isEmpty()) {
-			return null;
-		} else {
-			return (Fish) cells.get((int)(Math.random()*cells.size())).getAgent();
-		}
+	private Cell act(Environment env) {
+		 int random = this.random.nextInt(9);
+		 Cell cell = null, emptyCell = null;
+		 int x, y;
+		 for(int i = 0; i < 9; i++) {
+			 random = (random+1)%9;
+			 x = (random)%3+this.posX-1;
+			 y = (random)/3+this.posY-1;
+			 cell = env.getCells(x, y);
+			 if(cell != null) {
+				 if(!cell.isEmpty()) {
+					 if(cell.getAgent() instanceof Fish) {
+						 return cell;
+					 }
+				 } else {
+					 emptyCell = cell;
+				 }
+			 }
+		 }
+		 return emptyCell;
 	}
-
-	private List<Cell> getNeighborCellContainingFish(Environment environment) {
-		List<Cell> fishCells = new ArrayList<Cell>();
-		Cell cell;
-		for(int i=posX-1;i<=posX+1;i++) {
-			for(int j=posY-1;j<=posY+1;j++) {
-				if(i != posX || j != posY) {
-					cell = environment.getCells(i, j);
-					if(cell != null && !cell.isEmpty() && cell.getAgent() instanceof Fish) {
-						fishCells.add(cell);
-					}
-				}
-			}
-		}
-		return fishCells;
-	}
+	
 }

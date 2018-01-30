@@ -1,11 +1,8 @@
 package com.iagl.wator.agent;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.iagl.core.agent.Agent;
-import com.iagl.core.map.Cell;
 import com.iagl.core.map.Environment;
 
 public abstract class AquaticAnimal extends Agent {
@@ -37,38 +34,10 @@ public abstract class AquaticAnimal extends Agent {
 		}
 	}
 	
-	protected boolean moveInRandomDirection(Environment environment) {
-		Cell cell = getEmptyNeighborCell(environment);
-		if(cell != null) {
-			this.move(environment, cell);
-			return true;
-		}
-		return false;
-	}
-	
-	private Cell getEmptyNeighborCell(Environment environment) {
-		List<Cell> cells = getEmptyNeighborCells(environment);
-		if(cells.isEmpty()) {
-			return null;
-		} else {
-			return cells.get((int)(Math.random()*cells.size()));
-		}
-	}
-
-	private List<Cell> getEmptyNeighborCells(Environment environment) {
-		List<Cell> emptyCells = new ArrayList<Cell>();
-		Cell cell;
-		for(int i=posX-1;i<=posX+1;i++) {
-			for(int j=posY-1;j<=posY+1;j++) {
-				if(i != posX || j != posY) {
-					cell = environment.getCells(i, j);
-					if(cell != null && cell.isEmpty()) {
-						emptyCells.add(cell);
-					}
-				}
-			}
-		}
-		return emptyCells;
+	@Override
+	public void decide(Environment env) {
+		//L'animal est né pendant un tour antérieur
+		this.setNewBorn(false);
 	}
 	
 	public boolean isNewBorn() {
