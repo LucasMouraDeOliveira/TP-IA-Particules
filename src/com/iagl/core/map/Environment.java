@@ -22,6 +22,8 @@ public abstract class Environment {
 		this.initCells(width, height);
 	}
 	
+	public abstract void update();	
+	
 	private void initCells(int width, int height) {
 		this.cells = new Cell[width][height];
 		for (int i = 0; i < cells.length; i++) {
@@ -81,6 +83,6 @@ public abstract class Environment {
 	
 	public Trace getTrace() {
 		return trace;
-	}
+	}	
 	
 }

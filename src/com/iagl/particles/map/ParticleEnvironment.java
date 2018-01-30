@@ -21,6 +21,11 @@ public class ParticleEnvironment extends Environment {
 		this.particleFactory = new ParticleFactory(random);
 		this.initAgents(nbAgents);
 	}
+	
+	@Override
+	public void update() {
+		//Nothing to do
+	}
 
 	public void initAgents(int nbAgents) {
 		this.agents = new ArrayList<Agent>(nbAgents);

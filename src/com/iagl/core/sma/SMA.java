@@ -66,6 +66,7 @@ public class SMA extends Observable implements Runnable {
 	
 	private void update() {
 		this.scheduling(this.agents);
+		this.env.update();
 		if(this.currentFrame % this.refresh == 0) {
 			this.notifyObservers();
 		}

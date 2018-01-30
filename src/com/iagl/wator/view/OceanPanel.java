@@ -1,9 +1,8 @@
-package com.iagl.particles.view;
+package com.iagl.wator.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,27 +10,27 @@ import javax.swing.JPanel;
 
 import com.iagl.core.map.Cell;
 import com.iagl.core.sma.SMA;
-import com.iagl.particles.map.ParticleEnvironment;
-import com.iagl.particles.util.ParticleParameters;
+import com.iagl.wator.map.OceanEnvironment;
+import com.iagl.wator.util.OceanParameters;
 
-public class ParticlePanel extends JPanel implements Observer {
-
+public class OceanPanel extends JPanel implements Observer {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2493055910558929717L;
+	private static final long serialVersionUID = -2955655974503014996L;
 	
 	private int cs;
 	
-	private ParticleEnvironment environment;
+	private OceanEnvironment environment;
 	
-	private ParticleParameters parameters;
+	private OceanParameters parameters;
 	
 	private boolean displayGrid;
-	
-	public ParticlePanel(SMA sma, ParticleParameters parameters) {
-		this.parameters = parameters;
+
+	public OceanPanel(SMA sma, OceanParameters parameters) {
 		sma.addObserver(this);
+		this.parameters = parameters;
 		this.displayGrid = parameters.isGridDisplayed();
 		this.requestFocus();
 		this.initGraphicParticleParameters();
@@ -41,11 +40,10 @@ public class ParticlePanel extends JPanel implements Observer {
 		this.cs = parameters.getBoxSize();
 		this.setPreferredSize(new Dimension(parameters.getGridSizeX()*cs, parameters.getGridSizeY()*cs));
 	}
-
+	
 	@Override
 	public void paintComponent(Graphics g) {
-		
-		if(environment == null)
+		if(this.environment == null) 
 			return;
 		
 		Cell[][] cells = this.environment.getCells();
@@ -58,27 +56,32 @@ public class ParticlePanel extends JPanel implements Observer {
 		
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
+				//Drawing the sea
+				g.setColor(Color.blue);
+				g.fillRect(i*cs, j*cs, cs, cs);
+				
+				//Drawing the grid
 				if(displayGrid) {
 					g.setColor(Color.darkGray);
 					g.drawRect(i*cs, j*cs, cs, cs);
 				}
+				
+				//Drawing the fish/shark
 				if(!cells[i][j].isEmpty()) {
 					g.setColor(cells[i][j].getAgent().getColor());
-					g.fillRect(i*cs+1, j*cs+1, cs-1, cs-1);
+					g.fillRect(i*cs, j*cs, cs, cs);
 				}
 			}
 		}
-		
-		Toolkit.getDefaultToolkit().sync();
 		
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if(arg instanceof ParticleEnvironment) {
-			this.environment = (ParticleEnvironment)arg;
+		if(arg instanceof OceanEnvironment) {
+			this.environment = (OceanEnvironment)arg;
 			this.repaint();
 		}
 	}
-	
+
 }
