@@ -1,6 +1,7 @@
 package com.iagl.core.map;
 
 import java.util.List;
+import java.util.Random;
 
 import com.iagl.core.agent.Agent;
 
@@ -12,13 +13,16 @@ public abstract class Environment {
 	
 	protected List<Agent> agents;
 	
-	private boolean torus;
+	protected boolean torus;
 
-	private Trace trace;	
+	protected Trace trace;	
+	
+	protected Random random;
 
-	public Environment(int width, int height, boolean torus, Trace trace) {
+	public Environment(int width, int height, boolean torus, Trace trace, Random random) {
 		this.torus = torus;
 		this.trace = trace;
+		this.random = random;
 		this.initCells(width, height);
 	}
 	

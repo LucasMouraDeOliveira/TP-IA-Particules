@@ -17,8 +17,6 @@ import todo.Trace;
 public class OceanEnvironment extends Environment {
 	
 	protected AquaticAnimalFactory aquaticAnimalFactory;
-
-	private Random random;
 	
 	private List<Agent> newborn;
 	
@@ -31,8 +29,7 @@ public class OceanEnvironment extends Environment {
 	private int sharkStarvationTime;
 
 	public OceanEnvironment(int width, int height, boolean torus, Trace trace, Random random, int nbSharks, int nbFishs, int fishBreedTime, int sharkBreedTime, int sharkStarvationTime) {
-		super(width, height, torus, trace);
-		this.random = random;
+		super(width, height, torus, trace, random);
 		this.fishBreedTime = fishBreedTime;
 		this.sharkBreedTime = sharkBreedTime;
 		this.sharkStarvationTime = sharkStarvationTime;
@@ -48,7 +45,6 @@ public class OceanEnvironment extends Environment {
 		this.agents.removeAll(this.deceased);
 		this.newborn.clear();
 		this.deceased.clear();
-		System.out.println(this.agents.size());
 	}
 	
 	public void initAgents(int nbSharks, int nbFishs) {

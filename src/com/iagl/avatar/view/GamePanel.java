@@ -1,4 +1,4 @@
-package com.iagl.wator.view;
+package com.iagl.avatar.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,27 +8,27 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import com.iagl.avatar.map.Maze;
 import com.iagl.core.map.Cell;
 import com.iagl.core.sma.SMA;
-import com.iagl.wator.map.OceanEnvironment;
-import com.iagl.wator.util.OceanParameters;
+import com.iagl.core.util.Parameters;
 
-public class OceanPanel extends JPanel implements Observer {
-	
+public class GamePanel extends JPanel implements Observer {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2955655974503014996L;
+	private static final long serialVersionUID = -3447431203347846379L;
+	
+	private Maze maze;
+	
+	private Parameters parameters;
 	
 	private int cs;
-	
-	private OceanEnvironment environment;
-	
-	private OceanParameters parameters;
-	
-	private boolean displayGrid;
 
-	public OceanPanel(SMA sma, OceanParameters parameters) {
+	private boolean displayGrid;
+	
+	public GamePanel(SMA sma, Parameters parameters) {
 		sma.addObserver(this);
 		this.parameters = parameters;
 		this.displayGrid = parameters.isGridDisplayed();
@@ -42,20 +42,20 @@ public class OceanPanel extends JPanel implements Observer {
 	}
 	
 	@Override
-	public void paintComponent(Graphics g) {
-		if(this.environment == null) 
+	public void paintComponent(Graphics g ) {
+		
+		if(maze == null)
 			return;
 		
-		Cell[][] cells = this.environment.getCells();
+		Cell[][] cells = this.maze.getCells();
 		
-		g.setColor(Color.blue);
+		g.setColor(Color.gray);
 		g.fillRect(0, 0, cells.length*cs, cells[0].length*cs);
 		
 		g.setColor(Color.black);
 		g.drawRect(0, 0, cells.length*cs, cells[0].length*cs);
 		
-		//long t = System.currentTimeMillis();
-		
+
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
 				
@@ -73,14 +73,13 @@ public class OceanPanel extends JPanel implements Observer {
 			}
 		}
 		
-		//System.out.println((System.currentTimeMillis()-t) + " ms");
 		
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if(arg instanceof OceanEnvironment) {
-			this.environment = (OceanEnvironment)arg;
+		if(arg instanceof Maze) {
+			this.maze = (Maze)arg;
 			this.repaint();
 		}
 	}

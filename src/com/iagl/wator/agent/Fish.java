@@ -11,18 +11,19 @@ public class Fish extends AquaticAnimal {
 
 	public Fish(int posX, int posY, Random random, int breedTime) {
 		super(posX, posY, random, breedTime);
-		this.setColor(Color.GREEN);
+		this.setColor(Color.YELLOW);
 	}
 
 	@Override
 	public void decide(Environment env) {
 		
-		//Si l'animal est mort, on finit son tour et il ne réalise aucune action
+		//Si l'animal est mort, on finit son tour et il ne rï¿½alise aucune action
 		if(this.isDeceased()) {
 			return;
 		}
 		
-		super.decide(env);
+		this.setColor(Color.GREEN);
+		
 		this.act(env);
 		
 	}

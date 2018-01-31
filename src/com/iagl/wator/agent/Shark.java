@@ -16,7 +16,7 @@ public class Shark extends AquaticAnimal {
 	public Shark(int posX, int posY, Random random, int breedTime, int starvationTime) {
 		super(posX, posY, random, breedTime);
 		this.starvationTick = this.starvationTime = starvationTime;
-		this.setColor(Color.RED);
+		this.setColor(Color.PINK);
 	}
 	
 	@Override
@@ -30,12 +30,12 @@ public class Shark extends AquaticAnimal {
 	@Override
 	public void decide(Environment env) {
 		
-		//Si l'animal est mort, on finit son tour et il ne réalise aucune action
+		//Si l'animal est mort, on finit son tour et il ne rÃ©alise aucune action
 		if(this.isDeceased()) {
 			return;
 		}
 		
-		super.decide(env);
+		this.setColor(Color.RED);
 		
 		//If the shark is starving, it dies
 		if(this.starvationTick == 0) {

@@ -49,10 +49,14 @@ public class SMA extends Observable implements Runnable {
 
 	@Override
 	public void run() {
+		long updateTime;
 		while(shouldContinue()) {
 			try {
+				updateTime = System.currentTimeMillis();
 				this.update();
-				Thread.sleep(delay);
+				updateTime = (System.currentTimeMillis()-updateTime);
+				//System.out.println(updateTime);
+				Thread.sleep(Math.max(0, delay-updateTime));
 			} catch (InterruptedException e) {}
 		}
 		

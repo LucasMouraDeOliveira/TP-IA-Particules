@@ -11,13 +11,10 @@ import todo.Trace;
 
 public class ParticleEnvironment extends Environment {
 	
-	protected Random random;
-	
 	protected ParticleFactory particleFactory;
 
 	public ParticleEnvironment(int width, int height, int nbAgents, boolean torus, Trace trace, Random random) {
-		super(width, height, torus, trace);
-		this.random = random;
+		super(width, height, torus, trace, random);
 		this.particleFactory = new ParticleFactory(random);
 		this.initAgents(nbAgents);
 	}
