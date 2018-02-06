@@ -89,9 +89,9 @@ public class Parameters {
 			this.nbTicks = 0;
 		}
 		try {
-			this.seed = Long.valueOf(this.properties.getProperty("nbTicks"));
+			this.seed = Long.valueOf(this.properties.getProperty("seed"));
 		} catch(NumberFormatException e) {
-			this.seed = 0;
+			this.seed = -1;
 		}
 		
 		String strTorus = this.properties.getProperty("torus");

@@ -28,12 +28,18 @@ public class GamePanel extends JPanel implements Observer {
 
 	private boolean displayGrid;
 	
-	public GamePanel(SMA sma, Parameters parameters) {
+	public GamePanel(SMA sma, Maze maze, Parameters parameters) {
 		sma.addObserver(this);
+		this.maze = maze;
 		this.parameters = parameters;
 		this.displayGrid = parameters.isGridDisplayed();
-		this.requestFocus();
+		this.setFocusable(true);
 		this.initGraphicParticleParameters();
+	}
+	
+	public void addPlayerListener() {
+		this.requestFocusInWindow();
+		this.addKeyListener(this.maze.getPlayer());
 	}
 
 	private void initGraphicParticleParameters() {
@@ -43,9 +49,6 @@ public class GamePanel extends JPanel implements Observer {
 	
 	@Override
 	public void paintComponent(Graphics g ) {
-		
-		if(maze == null)
-			return;
 		
 		Cell[][] cells = this.maze.getCells();
 		
@@ -65,7 +68,7 @@ public class GamePanel extends JPanel implements Observer {
 					g.drawRect(i*cs, j*cs, cs, cs);
 				}
 				
-				//Drawing the fish/shark
+				//Drawing the walls
 				if(!cells[i][j].isEmpty()) {
 					g.setColor(cells[i][j].getAgent().getColor());
 					g.fillRect(i*cs, j*cs, cs, cs);

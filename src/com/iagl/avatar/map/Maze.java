@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Random;
 
 import com.iagl.avatar.agent.Hunter;
+import com.iagl.avatar.agent.Player;
 import com.iagl.avatar.factory.MazeBuilder;
 import com.iagl.avatar.factory.PlayerFactory;
+import com.iagl.core.agent.Agent;
 import com.iagl.core.map.Cell;
 import com.iagl.core.map.Environment;
 
@@ -17,6 +19,8 @@ public class Maze extends Environment {
 	private MazeBuilder mazeBuilder;
 	
 	private PlayerFactory playerFactory;
+	
+	private Player player;
 
 	public Maze(int width, int height, boolean torus, Trace trace, Random random, MazeBuilder mazeBuilder, int nbHunters, int wallPercent) {
 		super(width, height, torus, trace, random);
@@ -40,6 +44,7 @@ public class Maze extends Environment {
 	}
 
 	private void initPlayers(int nbHunters) {
+		this.agents = new ArrayList<Agent>();
 		List<Cell> cells = this.getEmptyCells();
 		Cell cell;
 		Hunter hunter;
@@ -52,6 +57,11 @@ public class Maze extends Environment {
 				this.agents.add(hunter);
 			}
 		}
+		Cell playerCell = cells.get(this.random.nextInt(cells.size()));
+		Player player = this.playerFactory.createPlayer(playerCell.getX(), playerCell.getY());
+		playerCell.setAgent(player);
+		this.agents.add(player);
+		this.player = player;
 	}
 
 	private List<Cell> getEmptyCells() {
@@ -66,6 +76,10 @@ public class Maze extends Environment {
 			}
 		}
 		return emptyCells;
+	}
+	
+	public Player getPlayer() {
+		return this.player;
 	}
 
 }
