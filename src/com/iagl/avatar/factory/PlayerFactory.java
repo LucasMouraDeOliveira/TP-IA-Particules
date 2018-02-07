@@ -9,8 +9,8 @@ public class PlayerFactory {
 		return new Hunter(posX, posY, decideHunter);
 	}
 
-	public Player createPlayer(int posX, int posY) {
-		return new Player(posX, posY);
+	public Player createPlayer(int posX, int posY, int decidePlayer) {
+		return new Player(posX, posY, decidePlayer);
 	}
 
 }

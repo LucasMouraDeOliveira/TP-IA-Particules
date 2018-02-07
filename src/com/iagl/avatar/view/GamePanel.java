@@ -75,7 +75,7 @@ public class GamePanel extends JPanel implements Observer {
 				} else {
 					//Drawing the distance
 					g.setColor(Color.white);
-					g.drawString(nodes[i][j].getWeight()+"", i*cs+4, j*cs+12);
+					//g.drawString(nodes[i][j].getWeight()+"", i*cs+4, j*cs+12);
 				}
 				
 			}

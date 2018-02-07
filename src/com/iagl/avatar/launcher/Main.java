@@ -33,7 +33,8 @@ public class Main {
 				new RandomMazeBuilder(),
 				parameters.getNbHunters(),
 				parameters.getWallPercent(),
-				parameters.getDecideHunter());
+				parameters.getDecideHunter(),
+				parameters.getDecidePlayer());
 		
 		SMA sma = new SMA(
 				env, 

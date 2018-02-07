@@ -26,22 +26,22 @@ public class Maze extends Environment {
 	
 	private Node[][] nodes;
 
-	public Maze(int width, int height, boolean torus, Trace trace, Random random, MazeBuilder mazeBuilder, int nbHunters, int wallPercent, int decideHunter) {
+	public Maze(int width, int height, boolean torus, Trace trace, Random random, MazeBuilder mazeBuilder, int nbHunters, int wallPercent, int decideHunter, int decidePlayer) {
 		super(width, height, torus, trace, random);
 		this.mazeBuilder = mazeBuilder;
 		this.nodeUpdater = new NodeUpdater();
 		this.playerFactory = new PlayerFactory();
-		this.initAgents(wallPercent, nbHunters, decideHunter);
+		this.initAgents(wallPercent, nbHunters, decideHunter, decidePlayer);
 	}
 
 	@Override
 	public void update() {
-		//nothing
+		
 	}
 	
-	private void initAgents(int wallPercent, int nbHunters, int decideHunter) {
+	private void initAgents(int wallPercent, int nbHunters, int decideHunter, int decidePlayer) {
 		this.initMaze(wallPercent);
-		this.initPlayers(nbHunters, decideHunter);
+		this.initPlayers(nbHunters, decideHunter, decidePlayer);
 		this.initNodes();
 	}
 
@@ -58,7 +58,7 @@ public class Maze extends Environment {
 		}
 	}
 
-	private void initPlayers(int nbHunters, int decideHunter) {
+	private void initPlayers(int nbHunters, int decideHunter, int decidePlayer) {
 		this.agents = new ArrayList<Agent>();
 		List<Cell> cells = this.getEmptyCells();
 		Cell cell;
@@ -73,7 +73,7 @@ public class Maze extends Environment {
 			}
 		}
 		Cell playerCell = cells.get(this.random.nextInt(cells.size()));
-		Player player = this.playerFactory.createPlayer(playerCell.getX(), playerCell.getY());
+		Player player = this.playerFactory.createPlayer(playerCell.getX(), playerCell.getY(), decidePlayer);
 		playerCell.setAgent(player);
 		this.agents.add(player);
 		this.player = player;

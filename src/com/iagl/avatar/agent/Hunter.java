@@ -40,7 +40,12 @@ public class Hunter extends Agent {
 		
 		Cell nextPosition = this.getNextPosition((Maze)env);
 		if(nextPosition != null) {
-			this.move(env, nextPosition);
+			if(nextPosition.isEmpty()) {
+				this.move(env, nextPosition);
+			} else if(nextPosition.getAgent() instanceof Player) {
+				System.out.println("perdu");
+				System.exit(0);
+			}
 		}
 	}
 	
@@ -68,16 +73,16 @@ public class Hunter extends Agent {
 		Node east = getFreeNode(maze, node.getCell().getX()+1, node.getCell().getY());
 		Node south = getFreeNode(maze, node.getCell().getX(), node.getCell().getY()+1);
 		Node west = getFreeNode(maze, node.getCell().getX()-1, node.getCell().getY());
-		if(north != null && north.getCell().isEmpty()) {
+		if(north != null && (north.getCell().isEmpty() || north.getCell().getAgent() instanceof Player)) {
 			neighbors.add(north);
 		}
-		if(east != null && east.getCell().isEmpty()) {
+		if(east != null && (east.getCell().isEmpty() || east.getCell().getAgent() instanceof Player)) {
 			neighbors.add(east);
 		}
-		if(south != null && south.getCell().isEmpty()) {
+		if(south != null && (south.getCell().isEmpty() || south.getCell().getAgent() instanceof Player)) {
 			neighbors.add(south);
 		}
-		if(west != null && west.getCell().isEmpty()) {
+		if(west != null && (west.getCell().isEmpty() || west.getCell().getAgent() instanceof Player)) {
 			neighbors.add(west);
 		}
 		return neighbors;

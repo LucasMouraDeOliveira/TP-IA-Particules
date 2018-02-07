@@ -20,23 +20,36 @@ public class Player extends Agent implements KeyListener {
 	private static final int SOUTH = 2;
 	
 	private static final int WEST = 3;
+	
+	private int maxDecidePlayer;
+	
+	private int decidePlayer;
 
-	public Player(int posX, int posY) {
+	public Player(int posX, int posY, int decidePlayer) {
 		super(posX, posY);
 		this.color = Color.BLUE;
 		directions = new boolean[4];
 		for(int i=0; i < 4; i++) {
 			directions[i] = false;
 		}
+		this.maxDecidePlayer = this.decidePlayer = decidePlayer;
 	}
 
 	@Override
 	public void update() {
-		
+		if(this.decidePlayer > 0) {
+			this.decidePlayer--;
+		}
 	}
 
 	@Override
 	public void decide(Environment env) {
+		
+		if(decidePlayer > 0) {
+			return;
+		} else {
+			decidePlayer = maxDecidePlayer;
+		}
 		
 		int newX = this.posX;
 		int newY = this.posY;
