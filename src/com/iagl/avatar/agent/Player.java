@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.iagl.avatar.map.Maze;
 import com.iagl.core.agent.Agent;
 import com.iagl.core.map.Cell;
 import com.iagl.core.map.Environment;
@@ -36,6 +37,7 @@ public class Player extends Agent implements KeyListener {
 
 	@Override
 	public void decide(Environment env) {
+		
 		int newX = this.posX;
 		int newY = this.posY;
 		if(directions[NORTH]) {
@@ -51,7 +53,10 @@ public class Player extends Agent implements KeyListener {
 		Cell newCell = env.getCells(newX, newY);
 		if(newCell != null && newCell.isEmpty()) {
 			this.move(env, newCell);
+			((Maze)env).updateNodes();
 		}
+		
+		
 	}
 
 	@Override

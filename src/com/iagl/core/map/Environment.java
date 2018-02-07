@@ -87,6 +87,6 @@ public abstract class Environment {
 	
 	public Trace getTrace() {
 		return trace;
-	}	
+	}
 	
 }

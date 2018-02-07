@@ -5,8 +5,8 @@ import com.iagl.avatar.agent.Player;
 
 public class PlayerFactory {
 	
-	public Hunter createHunter(int posX, int posY) {
-		return new Hunter(posX, posY);
+	public Hunter createHunter(int posX, int posY, int decideHunter) {
+		return new Hunter(posX, posY, decideHunter);
 	}
 
 	public Player createPlayer(int posX, int posY) {

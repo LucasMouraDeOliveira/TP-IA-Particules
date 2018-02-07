@@ -7,6 +7,10 @@ import com.iagl.core.util.Parameters;
 public class GameParameters extends Parameters {
 	
 	private int nbHunters;
+	
+	private int decideHunter;
+	
+	private int wallPercent;
 
 	public GameParameters(String filePath) throws IOException {
 		super(filePath);
@@ -22,10 +26,30 @@ public class GameParameters extends Parameters {
 			this.nbHunters = 4;
 		}
 		
+		try {
+			this.decideHunter = Integer.valueOf(this.properties.getProperty("decideHunter"));
+		} catch(NumberFormatException e) {
+			this.decideHunter = 1;
+		}
+		
+		try {
+			this.wallPercent = Integer.valueOf(this.properties.getProperty("wallPercent"));
+		} catch(NumberFormatException e) {
+			this.wallPercent = 10;
+		}
+		
 	}
 	
 	public int getNbHunters() {
 		return nbHunters;
+	}
+	
+	public int getDecideHunter() {
+		return decideHunter;
+	}
+	
+	public int getWallPercent() {
+		return wallPercent;
 	}
 
 }

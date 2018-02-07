@@ -9,7 +9,7 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import com.iagl.avatar.map.Maze;
-import com.iagl.core.map.Cell;
+import com.iagl.avatar.map.Node;
 import com.iagl.core.sma.SMA;
 import com.iagl.core.util.Parameters;
 
@@ -50,17 +50,17 @@ public class GamePanel extends JPanel implements Observer {
 	@Override
 	public void paintComponent(Graphics g ) {
 		
-		Cell[][] cells = this.maze.getCells();
+		Node[][] nodes = this.maze.getNodes();
 		
 		g.setColor(Color.gray);
-		g.fillRect(0, 0, cells.length*cs, cells[0].length*cs);
+		g.fillRect(0, 0, nodes.length*cs, nodes[0].length*cs);
 		
 		g.setColor(Color.black);
-		g.drawRect(0, 0, cells.length*cs, cells[0].length*cs);
+		g.drawRect(0, 0, nodes.length*cs, nodes[0].length*cs);
 		
 
-		for (int i = 0; i < cells.length; i++) {
-			for (int j = 0; j < cells[i].length; j++) {
+		for (int i = 0; i < nodes.length; i++) {
+			for (int j = 0; j < nodes[i].length; j++) {
 				
 				//Drawing the grid
 				if(displayGrid) {
@@ -69,10 +69,15 @@ public class GamePanel extends JPanel implements Observer {
 				}
 				
 				//Drawing the walls
-				if(!cells[i][j].isEmpty()) {
-					g.setColor(cells[i][j].getAgent().getColor());
+				if(!nodes[i][j].getCell().isEmpty()) {
+					g.setColor(nodes[i][j].getCell().getAgent().getColor());
 					g.fillRect(i*cs, j*cs, cs, cs);
+				} else {
+					//Drawing the distance
+					g.setColor(Color.white);
+					g.drawString(nodes[i][j].getWeight()+"", i*cs+4, j*cs+12);
 				}
+				
 			}
 		}
 		
