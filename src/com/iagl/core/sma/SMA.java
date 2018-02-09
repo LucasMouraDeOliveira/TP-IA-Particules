@@ -9,8 +9,6 @@ import com.iagl.core.agent.Agent;
 import com.iagl.core.map.Environment;
 import com.iagl.core.util.Scheduling;
 
-import todo.Trace;
-
 public class SMA extends Observable implements Runnable {
 	
 	private int delay;
@@ -30,10 +28,8 @@ public class SMA extends Observable implements Runnable {
 	private List<Agent> agents;
 
 	private Random random;
-
-	private Trace trace;
 	
-	public SMA(Environment env, int delay, int ticks, int refresh, Scheduling scheduling, Random random, Trace trace) {
+	public SMA(Environment env, int delay, int ticks, int refresh, Scheduling scheduling, Random random) {
 		this.env = env;
 		this.delay = delay;
 		this.currentTicks = ticks;
@@ -43,7 +39,6 @@ public class SMA extends Observable implements Runnable {
 		this.agents = this.env.getAgents();
 		this.scheduling = scheduling;
 		this.random = random;
-		this.trace = trace;
 	}
 
 
@@ -60,12 +55,13 @@ public class SMA extends Observable implements Runnable {
 			} catch (InterruptedException e) {}
 		}
 		
+		this.env.getTrace().close();
+		
 	}
 	
 	private boolean shouldContinue() {
 		this.currentFrame++;
-		this.trace.traceTick(currentFrame);
-		return infinite || --this.currentTicks>=0;
+		return infinite || (--this.currentTicks)>=0;
 	}
 	
 	private void update() {

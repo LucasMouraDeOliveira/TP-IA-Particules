@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.util.Random;
 
 import com.iagl.core.sma.SMA;
+import com.iagl.core.trace.Trace;
 import com.iagl.wator.map.OceanEnvironment;
 import com.iagl.wator.util.OceanParameters;
 import com.iagl.wator.view.Window;
-
-import todo.Trace;
 
 public class Main {
 	
@@ -21,7 +20,10 @@ public class Main {
 	    } else {
 			random = new Random();
 		}
-		Trace trace = new Trace(parameters.isTrace(), parameters.getPrintLocation());
+		Trace trace = null;
+		if(parameters.isTrace()) {
+			trace = new Trace(parameters.getPrintLocation());
+		}
 		
 		OceanEnvironment env = new OceanEnvironment(
 				parameters.getGridSizeX(), 
@@ -41,8 +43,7 @@ public class Main {
 				parameters.getNbTicks(), 
 				parameters.getRefresh(), 
 				parameters.getScheduling(), 
-				random, 
-				trace);
+				random);
 		Window window = new Window(sma, parameters);
 		
 		window.start();

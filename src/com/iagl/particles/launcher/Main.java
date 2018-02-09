@@ -5,11 +5,10 @@ import java.util.Random;
 
 import com.iagl.core.map.Environment;
 import com.iagl.core.sma.SMA;
+import com.iagl.core.trace.Trace;
 import com.iagl.particles.map.ParticleEnvironment;
 import com.iagl.particles.util.ParticleParameters;
 import com.iagl.particles.view.Window;
-
-import todo.Trace;
 
 public class Main {
 	
@@ -21,7 +20,10 @@ public class Main {
 	    } else {
 			random = new Random();
 		}
-		Trace trace = new Trace(parameters.isTrace(), parameters.getPrintLocation());
+		Trace trace = null;
+		if(parameters.isTrace()) {
+			trace = new Trace(parameters.getPrintLocation());
+		}
 
 		Environment env = new ParticleEnvironment(
 				parameters.getGridSizeX(), 
@@ -36,8 +38,7 @@ public class Main {
 				parameters.getNbTicks(),
 				parameters.getRefresh(),
 				parameters.getScheduling(),
-				random,
-				trace);
+				random);
 		Window window = new Window(sma, parameters);
 		window.start();
 		new Thread(sma).start();

@@ -8,8 +8,7 @@ import com.iagl.avatar.map.Maze;
 import com.iagl.avatar.util.GameParameters;
 import com.iagl.avatar.view.Window;
 import com.iagl.core.sma.SMA;
-
-import todo.Trace;
+import com.iagl.core.trace.Trace;
 
 public class Main {
 	

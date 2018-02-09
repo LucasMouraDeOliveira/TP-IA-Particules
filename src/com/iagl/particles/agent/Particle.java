@@ -2,6 +2,7 @@ package com.iagl.particles.agent;
 
 import com.iagl.core.agent.Agent;
 import com.iagl.core.map.Environment;
+import com.iagl.particles.map.ParticleEnvironment;
 
 public abstract class Particle extends Agent {
 	
@@ -34,7 +35,7 @@ public abstract class Particle extends Agent {
 	public void setDirection(int pasX, int pasY, Environment env){
 		this.pasX = pasX;
 		this.pasY = pasY;
-		env.getTrace().traceCollision(this);
+		((ParticleEnvironment)env).registerCollision();
 	}
 	
 	public void swapVelocity(Particle particle, Environment env) {

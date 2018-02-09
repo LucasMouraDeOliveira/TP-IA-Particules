@@ -5,13 +5,14 @@ import java.util.Random;
 
 import com.iagl.core.agent.Agent;
 import com.iagl.core.map.Environment;
+import com.iagl.core.trace.Trace;
 import com.iagl.particles.factory.ParticleFactory;
-
-import todo.Trace;
 
 public class ParticleEnvironment extends Environment {
 	
 	protected ParticleFactory particleFactory;
+	
+	protected int currentCollision;
 
 	public ParticleEnvironment(int width, int height, int nbAgents, boolean torus, Trace trace, Random random) {
 		super(width, height, torus, trace, random);
@@ -21,7 +22,15 @@ public class ParticleEnvironment extends Environment {
 	
 	@Override
 	public void update() {
-		//Nothing to do
+		if(this.trace != null) {
+			this.trace.nextTick();
+			this.trace.writeLine("COLLISION " + this.currentCollision);
+		}
+		this.currentCollision = 0;
+	}
+	
+	public void registerCollision() {
+		this.currentCollision++;
 	}
 
 	public void initAgents(int nbAgents) {

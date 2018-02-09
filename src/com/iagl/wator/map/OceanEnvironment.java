@@ -7,12 +7,11 @@ import java.util.Random;
 import com.iagl.core.agent.Agent;
 import com.iagl.core.map.Cell;
 import com.iagl.core.map.Environment;
+import com.iagl.core.trace.Trace;
 import com.iagl.wator.agent.AquaticAnimal;
 import com.iagl.wator.agent.Fish;
 import com.iagl.wator.agent.Shark;
 import com.iagl.wator.factory.AquaticAnimalFactory;
-
-import todo.Trace;
 
 public class OceanEnvironment extends Environment {
 	
@@ -41,12 +40,39 @@ public class OceanEnvironment extends Environment {
 	
 	@Override
 	public void update() {
+		//updating agents
 		this.agents.addAll(this.newborn);
 		this.agents.removeAll(this.deceased);
 		this.newborn.clear();
 		this.deceased.clear();
+		//adding to the trace
+		if(this.trace != null) {
+			this.trace.nextTick();
+			this.trace.writeLine("FISH " + this.getNbFishes());
+			this.trace.writeLine("SHARK " + this.getNbSharks());
+		}
 	}
 	
+	private int getNbFishes() {
+		int i = 0;
+		for(Agent a : this.agents) {
+			if(a instanceof Fish) {
+				i++;
+			}
+		}
+		return i;
+	}
+	
+	private int getNbSharks() {
+		int i = 0;
+		for(Agent a : this.agents) {
+			if(a instanceof Shark) {
+				i++;
+			}
+		}
+		return i;
+	}
+
 	public void initAgents(int nbSharks, int nbFishs) {
 		int nbAgents = nbSharks+nbFishs;
 		this.agents = new ArrayList<Agent>(nbAgents);

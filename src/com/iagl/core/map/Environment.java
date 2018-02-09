@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.iagl.core.agent.Agent;
-
-import todo.Trace;
+import com.iagl.core.trace.Trace;
 
 public abstract class Environment {
 	

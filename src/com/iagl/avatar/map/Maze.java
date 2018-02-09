@@ -11,8 +11,7 @@ import com.iagl.avatar.factory.PlayerFactory;
 import com.iagl.core.agent.Agent;
 import com.iagl.core.map.Cell;
 import com.iagl.core.map.Environment;
-
-import todo.Trace;
+import com.iagl.core.trace.Trace;
 
 public class Maze extends Environment {
 	
