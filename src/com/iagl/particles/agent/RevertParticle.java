@@ -5,9 +5,9 @@ import java.awt.Color;
 import com.iagl.core.map.Cell;
 import com.iagl.core.map.Environment;
 
-public class BounceParticle extends Particle {
+public class RevertParticle extends Particle {
 
-	public BounceParticle(int posX, int posY, int pasX, int pasY) {
+	public RevertParticle(int posX, int posY, int pasX, int pasY) {
 		super(posX, posY, pasX, pasY);
 	}
 
@@ -30,17 +30,14 @@ public class BounceParticle extends Particle {
 		if(newCell.isEmpty()) {
 			this.move(env, newCell);
 		} else {
-			this.swapVelocity((Particle)newCell.getAgent(), env);
+			this.swapVelocity(env);
 			this.setColor(Color.RED);
 		}
 			
 	}
 	
-	public void swapVelocity(Particle particle, Environment env) {
-		int tmpX = particle.getPasX();
-		int tmpY = particle.getPasY();
-		particle.setDirection(this.pasX,this.pasY, env);
-		this.setDirection(tmpX, tmpY, env);
+	public void swapVelocity(Environment env) {
+		this.setDirection(-1*this.pasX, -1*this.pasY, env);
 	}
 	
 	private void bounce(Environment env) {
@@ -54,5 +51,4 @@ public class BounceParticle extends Particle {
 		}
 		this.setDirection(pasX, pasY, env);
 	}
-
 }

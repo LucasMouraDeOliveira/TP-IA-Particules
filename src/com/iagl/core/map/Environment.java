@@ -88,4 +88,8 @@ public abstract class Environment {
 		return trace;
 	}
 	
+	public Random getRandom() {
+		return random;
+	}
+	
 }

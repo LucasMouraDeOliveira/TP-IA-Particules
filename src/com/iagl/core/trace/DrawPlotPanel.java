@@ -27,18 +27,24 @@ public class DrawPlotPanel extends JPanel {
 	
 	private Map<String, Color> colors;
 	
+	private int maxValue;
+	
+	private final static int OFFSET_X = 50;
+	
+	private final static int OFFSET_Y = 50;
+	
 	public DrawPlotPanel(int width, int height, Map<String, List<Integer>> metrics, Map<String, Color> colors) {
 		this.width = width;
 		this.height = height;
 		this.metrics = metrics;
 		this.colors = colors;
-		this.setPreferredSize(new Dimension(width, height));
+		this.setPreferredSize(new Dimension(width + OFFSET_X * 2, height + OFFSET_Y * 2));
 		this.calculateMetricDisplay();
 	}
 
 	private void calculateMetricDisplay() {
 		int points = this.metrics.get(this.metrics.keySet().toArray()[0]).size();
-		int maxValue = this.getMaxValue();
+		this.maxValue = this.getMaxValue();
 		this.pixelPerPointWidth = (double)this.width/points;
 		this.pixelPerPointHeight = (double)this.height/maxValue;
 	}
@@ -62,6 +68,12 @@ public class DrawPlotPanel extends JPanel {
 		List<Integer> metricValues;
 		double position;
 		
+		g.setColor(Color.BLACK);
+		g.drawString("-"+this.maxValue, 10, OFFSET_Y);
+		g.drawString("0", 10, this.getHeight()-OFFSET_Y + 20);
+		g.drawLine(10, 0, 10, this.getHeight()-OFFSET_Y);
+		g.drawLine(10, this.getHeight()-OFFSET_Y, this.getWidth(), this.getHeight()-OFFSET_Y);
+		
 		for(String metricName : metrics.keySet()) {
 			g.setColor(this.colors.get(metricName));
 			metricValues = metrics.get(metricName);
@@ -69,7 +81,7 @@ public class DrawPlotPanel extends JPanel {
 			for(int i = 1; i < metricValues.size(); i++) {
 				int posY1OnScreen = this.getPosYOnScreen(metricValues.get(i-1));
 				int posY2OnScreen = this.getPosYOnScreen(metricValues.get(i));
-				g.drawLine((int)position, posY1OnScreen, (int)(position+this.pixelPerPointWidth), posY2OnScreen);
+				g.drawLine((int)position + OFFSET_X, posY1OnScreen, (int)(position+this.pixelPerPointWidth) + OFFSET_X, posY2OnScreen);
 				position+=this.pixelPerPointWidth;
 				
 			}
@@ -81,7 +93,7 @@ public class DrawPlotPanel extends JPanel {
 		double normalizedValue = ((double)value)*this.pixelPerPointHeight;
 		int troncatedValue = (int)normalizedValue;
 		int reversedValue = this.height-troncatedValue;
-		return reversedValue;
+		return reversedValue + OFFSET_Y;
 	}
 	
 }

@@ -70,10 +70,10 @@ public class Graph {
 		Graph collisionGraph = new Graph("log-particle.csv");
 		collisionGraph.registerColor("COLLISION", Color.RED);
 		collisionGraph.displayGraph("Collisions", 1000, 500);
-		Graph watorGraph = new Graph("log-wator.csv");
-		watorGraph.registerColor("FISH", Color.GREEN);
-		watorGraph.registerColor("SHARK", Color.RED);
-		watorGraph.displayGraph("Wator", 1000, 500);
+//		Graph watorGraph = new Graph("log-wator.csv");
+//		watorGraph.registerColor("FISH", Color.GREEN);
+//		watorGraph.registerColor("SHARK", Color.RED);
+//		watorGraph.displayGraph("Wator", 1000, 500);
 	}
 
 

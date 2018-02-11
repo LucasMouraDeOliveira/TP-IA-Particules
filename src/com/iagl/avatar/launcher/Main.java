@@ -21,7 +21,10 @@ public class Main {
 	    } else {
 			random = new Random();
 		}
-		Trace trace = new Trace(parameters.isTrace(), parameters.getPrintLocation());
+		Trace trace = null;
+		if(parameters.isTrace()) {
+			trace = new Trace(parameters.getPrintLocation());
+		}
 		
 		Maze env = new Maze(
 				parameters.getGridSizeX(), 
@@ -40,9 +43,7 @@ public class Main {
 				parameters.getDelay(), 
 				parameters.getNbTicks(), 
 				parameters.getRefresh(), 
-				parameters.getScheduling(), 
-				random, 
-				trace);
+				parameters.getScheduling());
 		Window window = new Window(sma, env, parameters);
 		
 		window.start();

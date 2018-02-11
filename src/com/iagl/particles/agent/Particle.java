@@ -37,12 +37,5 @@ public abstract class Particle extends Agent {
 		this.pasY = pasY;
 		((ParticleEnvironment)env).registerCollision();
 	}
-	
-	public void swapVelocity(Particle particle, Environment env) {
-		int tmpX = particle.getPasX();
-		int tmpY = particle.getPasY();
-		particle.setDirection(this.pasX,this.pasY, env);
-		this.setDirection(tmpX, tmpY, env);
-	}
 
 }

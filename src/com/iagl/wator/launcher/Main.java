@@ -42,8 +42,7 @@ public class Main {
 				parameters.getDelay(), 
 				parameters.getNbTicks(), 
 				parameters.getRefresh(), 
-				parameters.getScheduling(), 
-				random);
+				parameters.getScheduling());
 		Window window = new Window(sma, parameters);
 		
 		window.start();

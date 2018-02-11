@@ -15,7 +15,7 @@ public class SMA extends Observable implements Runnable {
 	
 	private boolean infinite;
 		
-	private int currentTicks;
+	private int remainingTicks;
 	
 	private int currentFrame;
 	
@@ -25,20 +25,14 @@ public class SMA extends Observable implements Runnable {
 	
 	private Environment env;
 	
-	private List<Agent> agents;
-
-	private Random random;
-	
-	public SMA(Environment env, int delay, int ticks, int refresh, Scheduling scheduling, Random random) {
+	public SMA(Environment env, int delay, int ticks, int refresh, Scheduling scheduling) {
 		this.env = env;
 		this.delay = delay;
-		this.currentTicks = ticks;
+		this.remainingTicks = ticks;
 		this.currentFrame =0;
 		this.refresh = refresh;
 		this.infinite = (ticks <= 0);
-		this.agents = this.env.getAgents();
 		this.scheduling = scheduling;
-		this.random = random;
 	}
 
 
@@ -55,42 +49,50 @@ public class SMA extends Observable implements Runnable {
 			} catch (InterruptedException e) {}
 		}
 		
-		this.env.getTrace().close();
+		if(this.env.getTrace() != null) {
+			this.env.getTrace().close();
+		}
+		
+		System.exit(0);
 		
 	}
 	
 	private boolean shouldContinue() {
 		this.currentFrame++;
-		return infinite || (--this.currentTicks)>=0;
+		return infinite || (--this.remainingTicks)>=0;
 	}
 	
 	private void update() {
-		this.scheduling(this.agents);
+		this.scheduling();
 		this.env.update();
 		if(this.currentFrame % this.refresh == 0) {
 			this.notifyObservers();
 		}
 	}
 	
-	private void scheduling(List<Agent> agents) {
+	private void scheduling() {
+		
+		List<Agent> agents = this.env.getAgents();
+		Random random = this.env.getRandom();
+		
 		switch (this.scheduling) {
 			case EQUITABLE:
 				Collections.shuffle(agents, random);
-				for(Agent agent : this.agents) {
+				for(Agent agent : agents) {
 					agent.decide(env);
 					agent.update();
 				}
 				break;
 			case ALEATOIRE:
 				int index;
-				for(int i=0; i<this.agents.size();i++) {
-					index = random.nextInt(this.agents.size());
+				for(int i=0; i<agents.size();i++) {
+					index = random.nextInt(agents.size());
 					agents.get(index).decide(env);
 					agents.get(index).update();
 				}
 				break;
 			default:
-				for(Agent agent : this.agents) {
+				for(Agent agent : agents) {
 					agent.decide(env);
 					agent.update();
 				}
